@@ -1,15 +1,16 @@
+using GymAppWeDo.User;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GymAppWeDo.Data;
 
-public class MyDbContext(IConfiguration configuration) : DbContext
+public class MyDbContext: IdentityDbContext<User.Model.User>
 {
-    protected readonly IConfiguration Configuration = configuration;
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    public MyDbContext(DbContextOptions<MyDbContext> options) : base(options)
     {
-        options.UseNpgsql(Configuration.GetConnectionString("DatabaseParameters"));
+        // options.UseNpgsql(Configuration.GetConnectionString("DatabaseParameters"));
     }
     
     public DbSet<Test.Test> Tests { get; set; }
+    public DbSet<TokenInfo> TokenInfos { get; set; }
 }
