@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("88c9b59c-cdc3-4712-92fc-2bb8302026ec")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2daa3c93b22d2c30e636f86f6561f83fdc5d3a1a")]
 [assembly: System.Reflection.AssemblyProductAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
