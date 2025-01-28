@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using GymAppWeDo.User.Dtos;
+using GymAppWeDo.User.Model;
 
 namespace GymAppWeDo.User.Service;
 
@@ -13,7 +14,7 @@ public interface ITokenService
     
     TokenInfo AddToken(Model.User user);
     
-    void AddOrUpdateTokenOnLogin(Model.User user, string refreshToken);
+    Task AddOrUpdateTokenOnLogin(Model.User user, string refreshToken);
 
     bool CheckValidityOfRefreshToken(Model.User user,TokenDto dto);
     

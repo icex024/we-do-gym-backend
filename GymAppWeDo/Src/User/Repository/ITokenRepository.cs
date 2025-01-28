@@ -1,9 +1,11 @@
+using GymAppWeDo.User.Model;
+
 namespace GymAppWeDo.User.Repository;
 
 public interface ITokenRepository
 {
     TokenInfo GetToken(Model.User user);
     
-    Task AddToken(TokenInfo token);
-    Task UpdateToken(TokenInfo token);
+    Task AddTokenAsync(TokenInfo token);
+    Task UpdateTokenAsync(TokenInfo token);
 }

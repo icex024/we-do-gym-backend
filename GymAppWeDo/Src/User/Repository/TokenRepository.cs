@@ -1,4 +1,5 @@
 using GymAppWeDo.Data;
+using GymAppWeDo.User.Model;
 
 namespace GymAppWeDo.User.Repository;
 
@@ -16,13 +17,13 @@ public class TokenRepository : ITokenRepository
         return _context.TokenInfos.FirstOrDefault(item => item.Username == user.UserName);
     }
 
-    public async Task AddToken(TokenInfo token)
+    public async Task AddTokenAsync(TokenInfo token)
     {
        _context.TokenInfos.Add(token);
        await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateToken(TokenInfo token)
+    public async Task UpdateTokenAsync(TokenInfo token)
     {
         _context.TokenInfos.Update(token);
         await _context.SaveChangesAsync();

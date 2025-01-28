@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using GymAppWeDo.User.Dtos;
+using GymAppWeDo.User.Model;
 using GymAppWeDo.User.Repository;
 using Microsoft.IdentityModel.Tokens;
 
@@ -91,7 +92,7 @@ public class TokenService : ITokenService
         throw new NotImplementedException();
     }
 
-    public async void AddOrUpdateTokenOnLogin(Model.User user, string refreshToken)
+    public async Task AddOrUpdateTokenOnLogin(Model.User user, string refreshToken)
     {
         var tokenInfo = GetToken(user);
         if (tokenInfo == null)
@@ -102,13 +103,13 @@ public class TokenService : ITokenService
                 Username = user.UserName,
                 ExiredAt = DateTime.UtcNow.AddDays(7),
             }; 
-            _tokenRepository.AddToken(newTokenInfo);
+            await _tokenRepository.AddTokenAsync(newTokenInfo);
         }
         else
         {
             tokenInfo.RefreshToken = refreshToken;
             tokenInfo.ExiredAt = DateTime.UtcNow.AddDays(7);
-            _tokenRepository.UpdateToken(tokenInfo);
+            await _tokenRepository.AddTokenAsync(tokenInfo);
         }
     }
 
@@ -127,6 +128,6 @@ public class TokenService : ITokenService
     {
         var tokenInfo = _tokenRepository.GetToken(user);
         tokenInfo.RefreshToken = refreshToken;
-        await _tokenRepository.UpdateToken(tokenInfo);
+        await _tokenRepository.UpdateTokenAsync(tokenInfo);
     }
 }

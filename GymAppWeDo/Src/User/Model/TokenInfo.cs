@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace GymAppWeDo.User;
+namespace GymAppWeDo.User.Model;
 
 public class TokenInfo
 {

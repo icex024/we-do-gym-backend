@@ -1,4 +1,5 @@
 using GymAppWeDo.User;
+using GymAppWeDo.User.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,16 +1,15 @@
 using System.Security.Claims;
 using GymAppWeDo.Helpers;
 using GymAppWeDo.User.Dtos;
+using GymAppWeDo.User.Enum;
 using GymAppWeDo.User.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Index = Microsoft.EntityFrameworkCore.Metadata.Internal.Index;
 
-namespace GymAppWeDo.User;
+namespace GymAppWeDo.User.Controller;
 
 public class AuthController : BaseApiController
 {
@@ -100,7 +99,7 @@ public class AuthController : BaseApiController
             
             string refreshToken = _tokenService.GenerateRefreshToken();
 
-            _tokenService.AddOrUpdateTokenOnLogin(user, refreshToken);
+            await _tokenService.AddOrUpdateTokenOnLogin(user, refreshToken);
             
             return Ok(new TokenDto()
             {

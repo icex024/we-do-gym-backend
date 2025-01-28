@@ -1,4 +1,4 @@
-namespace GymAppWeDo.User;
+namespace GymAppWeDo.User.Enum;
 
 public class Roles
 {
