@@ -1,5 +1,7 @@
 using System.Text;
 using GymAppWeDo.Data;
+using GymAppWeDo.Record.Repository;
+using GymAppWeDo.Record.Service;
 using GymAppWeDo.User;
 using GymAppWeDo.User.Model;
 using GymAppWeDo.User.Repository;
@@ -53,6 +55,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<ITrainingRecordRepository, TrainingRecordRepository>();
+builder.Services.AddScoped<ITrainingRecordService, TrainingRecordService>();
 
 var app = builder.Build();
 
