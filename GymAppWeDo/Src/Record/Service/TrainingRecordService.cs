@@ -17,7 +17,7 @@ public class TrainingRecordService : ITrainingRecordService
     {
         var trainingRecord = new TrainingRecordAdapter().CreateTrainingRecordDtoToTrainingRecord(dto);
         trainingRecord.UserEmail = email;
-        _trainingRecordRepository.AddTrainingRecordAsync(trainingRecord);
+        await _trainingRecordRepository.AddTrainingRecordAsync(trainingRecord);
         if (filterDateStartTime.Equals("") || filterDateEndTime.Equals(""))
         {
             return await _trainingRecordRepository.GetAllTrainingRecordsForUserAsync(email);
@@ -30,9 +30,13 @@ public class TrainingRecordService : ITrainingRecordService
 
     public async Task<List<TrainingRecord>> GetTrainingRecords(string filterDateStartTime, string filterDateEndTime,string email)
     {
+        if (filterDateStartTime.Equals("") || filterDateEndTime.Equals(""))
+        {
+                    return await _trainingRecordRepository.GetAllTrainingRecordsForUserAsync(email);
+        }
         return await _trainingRecordRepository.GetTrainingRecordsAsync(
-            DateTime.Parse(filterDateStartTime),
-            DateTime.Parse(filterDateEndTime),
-            email);
+                    DateTime.SpecifyKind(DateTime.Parse(filterDateStartTime),DateTimeKind.Utc),
+                    DateTime.SpecifyKind(DateTime.Parse(filterDateEndTime), DateTimeKind.Utc),
+                    email);
     }
 }

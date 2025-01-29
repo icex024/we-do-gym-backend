@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GymAppWeDo.Record.Controller;
 
-[Authorize]
+// [Authorize]
 public class TrainingRecordController :BaseApiController
 {
     private readonly ITrainingRecordService _trainingRecordService;
@@ -18,9 +18,9 @@ public class TrainingRecordController :BaseApiController
     [HttpPost]
     public async Task<IActionResult> CreateNewTrainingRecord
         (CreateTrainingRecordDto dto,
-        [FromQuery] string userEmail,
-        [FromQuery] string startDate,
-        [FromQuery] string endDate)
+        [FromQuery] string userEmail = "",
+        [FromQuery] string? startDate = "",
+        [FromQuery] string? endDate = "")
     {
         try
         {
@@ -37,8 +37,8 @@ public class TrainingRecordController :BaseApiController
     public async Task<IActionResult> GetAllTrainingRecords
     (
         [FromQuery] string userEmail,
-        [FromQuery] string startDate,
-        [FromQuery] string endDate)
+        [FromQuery] string? startDate = "",
+        [FromQuery] string? endDate = "")
     {
         try
         {

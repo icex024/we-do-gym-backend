@@ -1,3 +1,4 @@
+using System.Globalization;
 using GymAppWeDo.Record.Enums;
 using GymAppWeDo.Record.Model;
 
@@ -39,7 +40,9 @@ public class TrainingRecordAdapter
             .Difficulty(dto.Difficulty)
             .Tiredness(dto.Tiredness)
             .Note(dto.Note)
-            .DateAndTimeOfTheTraining(DateTime.Parse(dto.DateAndtTimeOfTheTraining))
+            .DateAndTimeOfTheTraining(DateTime.SpecifyKind(DateTime.Parse(dto.DateAndtTimeOfTheTraining,
+                null,
+                System.Globalization.DateTimeStyles.AdjustToUniversal),DateTimeKind.Utc))
             .Build();
     }
 }

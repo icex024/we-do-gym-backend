@@ -15,7 +15,7 @@ public class TrainingRecordRepository : ITrainingRecordRepository
     
     public async Task AddTrainingRecordAsync(TrainingRecord trainingRecord)
     {
-        await _context.TrainingRecords.AddAsync(trainingRecord);
+        _context.TrainingRecords.Add(trainingRecord);
         await _context.SaveChangesAsync();
     }
 
@@ -24,7 +24,7 @@ public class TrainingRecordRepository : ITrainingRecordRepository
         return await _context.TrainingRecords
             .Where(item => 
                 item.UserEmail == email && 
-                (item.DateAndTimeOfTheTraining > startDate && item.DateAndTimeOfTheTraining < endDate))
+                (item.DateAndTimeOfTheTraining >= startDate && item.DateAndTimeOfTheTraining <= endDate))
             .ToListAsync();
     }
 

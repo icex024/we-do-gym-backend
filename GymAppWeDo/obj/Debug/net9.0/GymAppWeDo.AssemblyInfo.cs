@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e3715872d31e87d75b4a00ec2b8e3b4028cfe56")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0ef398740eaeb30546b15307ecd37f7ff40a9258")]
 [assembly: System.Reflection.AssemblyProductAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GymAppWeDo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
