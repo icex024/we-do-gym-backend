@@ -1,3 +1,4 @@
+using GymAppWeDo.Record.Model;
 using GymAppWeDo.User;
 using GymAppWeDo.User.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -14,4 +15,5 @@ public class MyDbContext: IdentityDbContext<User.Model.User>
     
     public DbSet<Test.Test> Tests { get; set; }
     public DbSet<TokenInfo> TokenInfos { get; set; }
+    public DbSet<TrainingRecord> TrainingRecords { get; set; }
 }
