@@ -13,11 +13,22 @@ public class TrainingRecordService : ITrainingRecordService
         _trainingRecordRepository = trainingRecordRepository;
     }
     
-    public async Task<List<TrainingRecord>> AddTrainingRecord(CreateTrainingRecordDto dto, string email, string filterDateStartTime, string filterDateEndTime)
+    public async Task AddTrainingRecord(CreateTrainingRecordDto dto, string email)
     {
+        
         var trainingRecord = new TrainingRecordAdapter().CreateTrainingRecordDtoToTrainingRecord(dto);
         trainingRecord.UserEmail = email;
         await _trainingRecordRepository.AddTrainingRecordAsync(trainingRecord);
+    }
+
+    public async Task<List<TrainingRecordDto>> GetTrainingRecords(string filterDateStartTime, string filterDateEndTime,string email)
+    {
+        var records = await GetTrainingRecordsWithParameters(email, filterDateStartTime, filterDateEndTime);
+        return ReturnDtos(records);
+    }
+
+    private async Task<List<TrainingRecord>> GetTrainingRecordsWithParameters(string email, string filterDateStartTime, string filterDateEndTime)
+    {
         if (filterDateStartTime.Equals("") || filterDateEndTime.Equals(""))
         {
             return await _trainingRecordRepository.GetAllTrainingRecordsForUserAsync(email);
@@ -28,15 +39,14 @@ public class TrainingRecordService : ITrainingRecordService
             email);
     }
 
-    public async Task<List<TrainingRecord>> GetTrainingRecords(string filterDateStartTime, string filterDateEndTime,string email)
+    private List<TrainingRecordDto> ReturnDtos(List<TrainingRecord> records)
     {
-        if (filterDateStartTime.Equals("") || filterDateEndTime.Equals(""))
+        List<TrainingRecordDto> dtos = new List<TrainingRecordDto>();
+        foreach (var record in records)
         {
-                    return await _trainingRecordRepository.GetAllTrainingRecordsForUserAsync(email);
+            dtos.Add(new TrainingRecordAdapter().TrainingRecordToTrainingRecordDto(record));
         }
-        return await _trainingRecordRepository.GetTrainingRecordsAsync(
-                    DateTime.SpecifyKind(DateTime.Parse(filterDateStartTime),DateTimeKind.Utc),
-                    DateTime.SpecifyKind(DateTime.Parse(filterDateEndTime), DateTimeKind.Utc),
-                    email);
+
+        return dtos;
     }
 }

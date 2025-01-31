@@ -16,15 +16,16 @@ public class TrainingRecordController :BaseApiController
         _trainingRecordService = trainingRecordService;
     }
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> CreateNewTrainingRecord
         (CreateTrainingRecordDto dto,
-        [FromQuery] string userEmail = "",
         [FromQuery] string? startDate = "",
         [FromQuery] string? endDate = "")
     {
         try
         {
-            return Ok(await _trainingRecordService.AddTrainingRecord(dto, userEmail, startDate, endDate));
+            await _trainingRecordService.AddTrainingRecord(dto, User.Identity.Name);
+            return Ok();
         }
         catch (Exception e)
         {
@@ -34,15 +35,15 @@ public class TrainingRecordController :BaseApiController
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllTrainingRecords
     (
-        [FromQuery] string userEmail,
         [FromQuery] string? startDate = "",
         [FromQuery] string? endDate = "")
     {
         try
         {
-            return Ok( await _trainingRecordService.GetTrainingRecords(startDate, endDate,userEmail));
+            return Ok( await _trainingRecordService.GetTrainingRecords(startDate, endDate,User.Identity.Name));
         }
         catch (Exception e)
         {

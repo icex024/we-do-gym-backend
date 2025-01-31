@@ -5,9 +5,12 @@ using GymAppWeDo.User.Enum;
 using GymAppWeDo.User.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.Net.Http.Headers;
 using Index = Microsoft.EntityFrameworkCore.Metadata.Internal.Index;
+using SameSiteMode = Microsoft.AspNetCore.Http.SameSiteMode;
 
 namespace GymAppWeDo.User.Controller;
 
@@ -101,10 +104,11 @@ public class AuthController : BaseApiController
 
             await _tokenService.AddOrUpdateTokenOnLogin(user, refreshToken);
             
+            SetRefreshTokenInCookie(refreshToken);
+            
             return Ok(new TokenDto()
             {
-                AccessToken = token,
-                RefreshToken = refreshToken
+                AccessToken = token
             });
         }
         catch (Exception ex)
@@ -119,10 +123,12 @@ public class AuthController : BaseApiController
     {
         try
         {
+            
             var principal = _tokenService.GetPrincipalFromExpiredToken(dto.AccessToken);
             var user = await _authService.GetUserByEmail(principal.Identity.Name);
-
-            if (_tokenService.CheckValidityOfRefreshToken(user, dto) != true)
+            var authCookie = HttpContext.Request.Cookies.FirstOrDefault(c=> c.Key.Equals("RefreshToken"));
+            
+            if (_tokenService.CheckValidityOfRefreshToken(user, authCookie.Value) != true)
             {
                  return BadRequest("Invalid refresh token. Please login again.");
             }
@@ -131,11 +137,12 @@ public class AuthController : BaseApiController
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             
             _tokenService.UpdateRefreshToken(user,newRefreshToken);
+
+            SetRefreshTokenInCookie(newRefreshToken);
             
             return Ok(new TokenDto
             {
                 AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken
             });
             
         }
@@ -163,5 +170,23 @@ public class AuthController : BaseApiController
             _logger.LogError(ex.Message);
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
+    }
+
+    private void SetRefreshTokenInCookie(string refreshToken)
+    {
+        Response.Cookies.Append("RefreshToken", refreshToken, GetCookieOptions());
+    }
+    
+    private CookieOptions GetCookieOptions()
+    {
+        return new CookieOptions()
+        {
+            HttpOnly = true,
+            IsEssential = true,
+            Secure = false,
+            SameSite = SameSiteMode.None,
+            Domain = "localhost",
+            Expires = DateTime.UtcNow.AddDays(90)
+        };
     }
 }

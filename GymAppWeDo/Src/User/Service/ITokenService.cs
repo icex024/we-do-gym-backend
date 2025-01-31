@@ -16,7 +16,7 @@ public interface ITokenService
     
     Task AddOrUpdateTokenOnLogin(Model.User user, string refreshToken);
 
-    bool CheckValidityOfRefreshToken(Model.User user,TokenDto dto);
+    bool CheckValidityOfRefreshToken(Model.User user,string refreshToken);
     
     Task UpdateRefreshToken(Model.User user,string refreshToken);
 }

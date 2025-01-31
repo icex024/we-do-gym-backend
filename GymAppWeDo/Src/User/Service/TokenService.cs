@@ -99,6 +99,7 @@ public class TokenService : ITokenService
         {
             var newTokenInfo = new TokenInfo
             {
+                
                 RefreshToken = refreshToken,
                 Username = user.UserName,
                 ExiredAt = DateTime.UtcNow.AddDays(7),
@@ -109,14 +110,14 @@ public class TokenService : ITokenService
         {
             tokenInfo.RefreshToken = refreshToken;
             tokenInfo.ExiredAt = DateTime.UtcNow.AddDays(7);
-            await _tokenRepository.AddTokenAsync(tokenInfo);
+            await _tokenRepository.UpdateTokenAsync(tokenInfo);
         }
     }
 
-    public bool CheckValidityOfRefreshToken(Model.User user,TokenDto dto)
+    public bool CheckValidityOfRefreshToken(Model.User user,string refreshToken)
     {
          var tokenInfo = _tokenRepository.GetToken(user);
-         if (tokenInfo == null || tokenInfo.RefreshToken != dto.RefreshToken
+         if (tokenInfo == null || tokenInfo.RefreshToken != refreshToken
                                || tokenInfo.ExiredAt <= DateTime.UtcNow)
          {
              return false;

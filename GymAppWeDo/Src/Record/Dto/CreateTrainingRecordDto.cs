@@ -8,5 +8,5 @@ public class CreateTrainingRecordDto
     public int Difficulty { get; set; } = 0;
     public int Tiredness { get; set; } = 0;
     public string Note { get; set; } = String.Empty;
-    public string DateAndtTimeOfTheTraining { get; set; } = string.Empty;
+    public string DateAndTimeOfTheTraining { get; set; } = string.Empty;
 }

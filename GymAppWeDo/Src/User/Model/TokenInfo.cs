@@ -1,9 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GymAppWeDo.User.Model;
 
 public class TokenInfo
 {
+    [Key]
     public int Id { get; set; }
 
     [Required] [MaxLength(30)] public string Username { get; set; } = string.Empty;

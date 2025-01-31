@@ -30,6 +30,32 @@ public class TrainingRecordAdapter
         }
         return TrainingType.MartialArts;
     }
+
+    private string ReturnCorrectTrainingTypeString(TrainingType trainingType)
+    {
+        if (Enums.TrainingType.Cardio == trainingType )
+        {
+            return "CARDIO";
+        }
+        if (Enums.TrainingType.UpperBody== trainingType)
+        {
+            return 
+                "UPPERBODY";
+        }
+        if ( Enums.TrainingType.FullBody== trainingType)
+        {
+            return "FULLBODY";
+        }
+        if (Enums.TrainingType.LowerBody== trainingType )
+        {
+            return "LOWERBODY";
+        }
+        if (Enums.TrainingType.CrossFit== trainingType )
+        {
+            return "CROSSFIT";
+        }
+        return "MARTIALARTS";
+    }
     
     public TrainingRecord CreateTrainingRecordDtoToTrainingRecord(CreateTrainingRecordDto dto)
     {
@@ -40,9 +66,24 @@ public class TrainingRecordAdapter
             .Difficulty(dto.Difficulty)
             .Tiredness(dto.Tiredness)
             .Note(dto.Note)
-            .DateAndTimeOfTheTraining(DateTime.SpecifyKind(DateTime.Parse(dto.DateAndtTimeOfTheTraining,
+            .DateAndTimeOfTheTraining(DateTime.SpecifyKind(DateTime.Parse(dto.DateAndTimeOfTheTraining,
                 null,
                 System.Globalization.DateTimeStyles.AdjustToUniversal),DateTimeKind.Utc))
+            .Build();
+    }
+
+    public TrainingRecordDto TrainingRecordToTrainingRecordDto(TrainingRecord trainingRecord)
+    {
+        return new TrainingRecordDtoBuilder()
+            .Id(trainingRecord.Id)
+            .TrainingType(ReturnCorrectTrainingTypeString(trainingRecord.TrainingType))
+            .Difficulty(trainingRecord.Difficulty)
+            .Tiredness(trainingRecord.Tiredness)
+            .Note(trainingRecord.Note)
+            .CaloriesBurned(trainingRecord.CaloriesBurned)
+            .DateAndTimeOfTheTraining(trainingRecord.DateAndTimeOfTheTraining.ToString(
+                "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture))
+            .UserEmail(trainingRecord.UserEmail)
             .Build();
     }
 }
